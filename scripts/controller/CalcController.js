@@ -16,6 +16,7 @@ class CalcController {
     setInterval(() => {
       this.setDisplayDateTime();
     }, 1000);
+    this.setLastNumberToDisplay();
   }
 
   addEventListenerAll(element, events, fn) {
@@ -27,6 +28,7 @@ class CalcController {
   clearAll() {
     this._operation = [];
     this.displayCalc = 0;
+    this.setLastNumberToDisplay();
   }
 
   clearEntry() {
@@ -54,6 +56,27 @@ class CalcController {
     }
   }
 
+  calc() {
+    let last = "";
+    if (this._operation.length > 3) {
+      last = this._operation.pop();
+    }
+
+    let result = eval(this._operation.join(""));
+
+    if (lats == "%") {
+      result /= 100;
+      this._operation = [result];
+    } else {
+      this._operation = [result];
+      if (last) this._operation.pudh(last);
+    }
+
+    console.log(result);
+    // this._operation = [result, last];
+    this.setLastNumberToDisplay();
+  }
+
   setLastNumberToDisplay() {
     let lastNumber;
 
@@ -65,19 +88,6 @@ class CalcController {
     }
 
     this.displayCalc = lastNumber;
-  }
-
-  calc() {
-    let last = "";
-
-    if (this._operation.length > 3) {
-      last = this._operation.pop();
-    }
-
-    let result = eval(this._operation.join(""));
-    console.log(result);
-    this._operation = [result, last];
-    this.setLastNumberToDisplay();
   }
 
   addDot() {
