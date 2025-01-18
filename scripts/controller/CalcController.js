@@ -23,12 +23,14 @@ class CalcController {
   }
 
   copyToClipboard() {
-    let input = document.createElement("input");
-    input.value = this.displayCalc;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand("Copy");
-    input.remove();
+    navigator.clipboard
+      .writeText(this.displayCalc)
+      .then(() => {
+        console.log("Text copied to clipboard successfully!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
   }
 
   initialize() {
@@ -295,7 +297,6 @@ class CalcController {
         this.addOperation(parseInt(value));
         break;
       default:
-        // this.addOperation(value);
         this.setError();
         break;
     }
